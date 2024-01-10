@@ -64,7 +64,7 @@ const ConfigurationForm: React.FC = () => {
         </Grid>
       </Grid>
 
-      <Button type="submit" variant="contained" color="primary" className="mt-4">
+      <Button type="submit" variant="outlined" color="primary" className="mt-4">
         Save
       </Button>
     </form>

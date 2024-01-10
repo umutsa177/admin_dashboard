@@ -3,8 +3,10 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import { useRouter } from 'next/router';
 
 const CustomSidebar: React.FC = () => {
+    const {push} = useRouter();
   return (
       <Drawer variant="permanent" anchor="left"
           sx={{
@@ -22,13 +24,13 @@ const CustomSidebar: React.FC = () => {
           </Typography>
         </ListItem>
         <ListItem button>
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="Dashboard" onClick={() => push('/')}/>
         </ListItem>
         <ListItem button>
-          <ListItemText primary="Users" />
+          <ListItemText primary="Account"  onClick={() => push('/account')}/>
         </ListItem>
         <ListItem button>
-          <ListItemText primary="Settings" />
+          <ListItemText primary="Settings"  onClick={() => push('/settings')}/>
         </ListItem>
       </List>
     </Drawer>
