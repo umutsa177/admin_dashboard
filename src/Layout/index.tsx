@@ -1,24 +1,28 @@
-// components/Layout.js
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
 import Head from 'next/head';
+import { Container, CssBaseline } from '@mui/material';
+import CustomSidebar from '@/components/Sidebar';
+import CustomAppBar from '@/components/Navbar';
 
+interface LayoutProps {
+    children: React.ReactNode;
+}
 
-// @ts-ignore
-const Layout = ({ children }) => {
-    return (
-        <div className="flex h-screen">
-            <Head>
-                <title>Admin Dashboard</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <Sidebar />
-            <div className="flex-1 flex flex-col">
-                <Navbar />
-                <main className="flex-1 p-4 overflow-y-auto bg-gray-200">{children}</main>
-            </div>
-        </div>
-    );
+const Layout: React.FC<LayoutProps> = ({ children }) => {
+  return (
+    <>
+      <CssBaseline />
+      <Head>
+        <title>Admin Dashboard</title>
+      </Head>
+      <CustomAppBar />
+      <div style={{ display: 'flex', textAlign: 'center' }}>
+        <CustomSidebar />
+        <Container component="main" maxWidth="lg" sx={{ flexGrow: 1, p: 3 }}>
+          {children}
+        </Container>
+      </div>
+    </>
+  );
 };
 
 export default Layout;

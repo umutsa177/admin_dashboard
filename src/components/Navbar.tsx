@@ -1,11 +1,20 @@
-// components/Navbar.js
-const Navbar = () => {
-    return (
-        <header className="bg-white shadow p-4">
-            <h2 className="text-lg font-semibold">Admin Dashboard</h2>
-            {/* ... Diğer menü seçenekleri veya butonlar */}
-        </header>
-    );
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+
+const CustomAppBar: React.FC = () => {
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+          Admin Dashboard
+        </Typography>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'end' }}>
+          Log Out
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  );
 };
 
-export default Navbar;
+export default CustomAppBar;
