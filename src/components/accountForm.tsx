@@ -26,7 +26,7 @@ const AccountForm: React.FC = () => {
             name="name"
             control={control}
             defaultValue=""
-            render={({ field }) => <TextField {...field} label="Site Title" fullWidth />}
+            render={({ field }) => <TextField {...field} label="name" fullWidth />}
           />
         </Grid>
         <Grid item xs={6}>
@@ -34,7 +34,7 @@ const AccountForm: React.FC = () => {
             name="surname"
             control={control}
             defaultValue=""
-            render={({ field }) => <TextField {...field} label="Logo URL" fullWidth />}
+            render={({ field }) => <TextField {...field} label="surname" fullWidth />}
           />
         </Grid>
         <Grid item xs={6}>
@@ -42,7 +42,7 @@ const AccountForm: React.FC = () => {
             name="email"
             control={control}
             defaultValue=""
-            render={({ field }) => <TextField {...field} label="Additional Field 1" fullWidth />}
+            render={({ field }) => <TextField {...field} label="email" fullWidth />}
           />
         </Grid>
         <Grid item xs={6}>
@@ -50,7 +50,7 @@ const AccountForm: React.FC = () => {
             name="password"
             control={control}
             defaultValue=""
-            render={({ field }) => <TextField {...field} label="Additional Field 2" fullWidth />}
+            render={({ field }) => <TextField {...field} label="password" fullWidth />}
           />
         </Grid>
       </Grid>

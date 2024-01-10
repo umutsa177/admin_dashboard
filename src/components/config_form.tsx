@@ -14,7 +14,7 @@ interface FormData {
 
 const ConfigurationForm: React.FC = () => {
   const { handleSubmit, control } = useForm<FormData>();
-  const [color, setColor] = useState<IColor>();
+  // const [color, setColor] = useState<IColor>();
   const onSubmit = (data: FormData) => {
     console.log(data);
   };
@@ -35,7 +35,7 @@ const ConfigurationForm: React.FC = () => {
             name="siteDescription"
             control={control}
             defaultValue=""
-            render={({ field }) => <TextField {...field} label="Logo URL" fullWidth />}
+            render={({ field }) => <TextField {...field} label="Site Description " fullWidth />}
           />
         </Grid>
         <Grid item xs={6}>
@@ -46,7 +46,7 @@ const ConfigurationForm: React.FC = () => {
             render={({ field }) => 
             //  <ColorPicker width={456} height={228} color={color}
               // onChange={setColor} hideHSV dark /> 
-              <TextField {...field} label="Logo URL" fullWidth />
+              <TextField {...field} label="SideBar Color" fullWidth />
           }
           />
         </Grid>
