@@ -38,6 +38,15 @@ const CustomSidebar: React.FC = () => {
         <ListItem>
           <ListItemText primary="Category Add"  onClick={() => push('/category/add')}/>
         </ListItem>
+        <ListItem>
+          <ListItemText primary="Product"  onClick={() => push('/product/list')}/>
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Product Add"  onClick={() => push('/product/add')}/>
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Order"  onClick={() => push('/order/list')}/>
+        </ListItem>
       </List>
     </Drawer>
   );
