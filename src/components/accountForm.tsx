@@ -3,18 +3,17 @@ import { useForm, Controller } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { ColorPicker } from 'react-color-palette';
-import { useState } from 'react';
 
 interface FormData {
-  siteTitle: string;
-  siteDescription: string;
-  sideBarColor: string;
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
 }
 
-const ConfigurationForm: React.FC = () => {
+const AccountForm: React.FC = () => {
   const { handleSubmit, control } = useForm<FormData>();
-  const [color, setColor] = useState<IColor>();
+
   const onSubmit = (data: FormData) => {
     console.log(data);
   };
@@ -24,7 +23,7 @@ const ConfigurationForm: React.FC = () => {
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Controller
-            name="siteTitle"
+            name="name"
             control={control}
             defaultValue=""
             render={({ field }) => <TextField {...field} label="Site Title" fullWidth />}
@@ -32,7 +31,7 @@ const ConfigurationForm: React.FC = () => {
         </Grid>
         <Grid item xs={6}>
           <Controller
-            name="siteDescription"
+            name="surname"
             control={control}
             defaultValue=""
             render={({ field }) => <TextField {...field} label="Logo URL" fullWidth />}
@@ -40,23 +39,27 @@ const ConfigurationForm: React.FC = () => {
         </Grid>
         <Grid item xs={6}>
           <Controller
-            name="sideBarColor"
+            name="email"
             control={control}
             defaultValue=""
-            render={({ field }) => 
-            //  <ColorPicker width={456} height={228} color={color}
-              // onChange={setColor} hideHSV dark /> 
-              <TextField {...field} label="Logo URL" fullWidth />
-          }
+            render={({ field }) => <TextField {...field} label="Additional Field 1" fullWidth />}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => <TextField {...field} label="Additional Field 2" fullWidth />}
           />
         </Grid>
       </Grid>
 
-      <Button type="submit" variant="outlined" color="primary" className="mt-4">
+      <Button type="submit" variant="outlined" color="success" className="mt-4">
         Save
       </Button>
     </form>
   );
 };
 
-export default ConfigurationForm;
+export default AccountForm;
