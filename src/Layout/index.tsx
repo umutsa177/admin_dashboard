@@ -2,13 +2,16 @@ import Head from 'next/head';
 import { Container, CssBaseline } from '@mui/material';
 import CustomSidebar from '@/components/Sidebar';
 import CustomAppBar from '@/components/Navbar';
+import Login from "../pages/auth/signIn";
 
 interface LayoutProps {
     children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  return (
+    const isLogin = false
+
+  return isLogin ? (
     <>
       <CssBaseline />
       <Head>
@@ -22,7 +25,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </Container>
       </div>
     </>
-  );
+  ): <Login />;
 };
 
 export default Layout;
