@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  nextjs-app:
+    container_name: final-project-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - "5005:3000"
+
+    environment:
+      - DB_HOST=mysql-db
+      - DB_USER=admin_dash
+      - DB_PASSWORD=root
+
+  mysql-db:
+    container_name: mysql-container
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'admin_dashboard_db'
+      MYSQL_USER: 'admin_dash'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:

@@ -19,7 +19,7 @@ const handler = async (req: any, res: any) => {
         const hashedPassword = user.rows[0].password;
 
         // Şifreyi karşılaştır
-        const passwordMatch = await bcrypt.compare(password, hashedPassword);
+        const passwordMatch: any = bcrypt.compare(password, hashedPassword);
 
         if (passwordMatch) {
           // Şifre doğru, token oluştur ve gönder
