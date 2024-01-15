@@ -1,10 +1,10 @@
-import mysql from 'mysql';
+import mysql from 'mysql2';
 
 const db = mysql.createConnection({
-    host: 'localhost', // MySQL sunucu adresi
-    user: 'root', // Veritabanı kullanıcı adı
-    password: '', // Veritabanı şifresi
-    database: 'admin_dashboard' // Kullanılacak veritabanı adı
+    host: 'localhost',      // MySQL sunucu adresi
+    user: 'admin_dash',     // Veritabanı kullanıcı adı
+    password: 'root',       // Veritabanı şifresi
+    database: 'admin_dashboard_db' // Kullanılacak veritabanı adı
 });
 
 // Bağlantıyı başlat

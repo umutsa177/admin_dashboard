@@ -1,48 +1,52 @@
-import {sql} from "@vercel/postgres";
-
+import db from '../../../../config/db';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import bcrypt from "bcrypt";
 
-export const generateToken = (userId: any) => {
-  return jwt.sign({userId}, 'secret_key', {expiresIn: '1h'});
-};
-const handler = async (req: any, res: any) => {
-  const { method } = req;
-  if (method === "POST") {
-    try {
-      const { email, password } = req.body;
+const secretKey: any = process.env.JWT_SECRET_KEY; // JSON Web Token (JWT) için gizli anahtar
 
-      // Kullanıcıyı veritabanından al
-      const user = await sql`SELECT * from Users WHERE email = ${email}`;
+export default async function handler(req: any, res: any) {
+    if (req.method === 'POST') {
+        const { email, password } = req.body;
 
-      if (user.rows.length > 0) {
-        const hashedPassword = user.rows[0].password;
-
-        // Şifreyi karşılaştır
-        const passwordMatch: any = bcrypt.compare(password, hashedPassword);
-
-        if (passwordMatch) {
-          // Şifre doğru, token oluştur ve gönder
-          const token = generateToken(user.rows[0].id);
-          const userInfo = {
-            id: user.rows[0].id,
-            email: user.rows[0].email,
-          }
-          res.status(200).json({token: token , user: userInfo });
-        } else {
-          // Şifre yanlış
-          res.status(401).json({ message: "Email adresi veya şifre hatalı" });
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Lütfen tüm alanları doldurun!' });
         }
-      } else {
-        // Kullanıcı bulunamadı
-        res.status(401).json({ message: "Kullanıcı Bulunamadı" });
-      }
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Bir hata oluştu", errorMessage: err });
+
+        // E-posta kontrolü
+        db.query('SELECT * FROM user WHERE email = ?', [email], async (err: any, result: any) => {
+            if (err) {
+                throw err;
+            }
+
+            if (result.length === 0) {
+                return res.status(401).json({ message: 'Kullanıcı bulunamadı!' });
+            }
+
+            const user = {
+                id: result[0].id,
+                name: result[0].name,
+                email: result[0].email,
+                role: result[0].role,
+            };
+
+            try {
+                // Parola kontrolü
+                const match = await bcrypt.compare(password, result[0].password);
+
+                if (match) {
+                    // Parola doğru, JWT oluştur
+                    const token = jwt.sign({ userId: user.id, email: user.email }, secretKey, { expiresIn: '1h' });
+
+                    // Kullanıcı bilgileri ve token ile birlikte dön
+                    return res.status(200).json({ message: 'Giriş başarılı', user, token });
+                } else {
+                    // Parola yanlış
+                    return res.status(401).json({ message: 'Hatalı parola!' });
+                }
+            } catch (error) {
+                console.error('Parola karşılaştırma hatası:', error);
+                return res.status(500).json({ message: 'Internal Server Error' });
+            }
+        });
     }
-  }
-};
-
-
-export default handler;
+}

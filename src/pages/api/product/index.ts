@@ -25,24 +25,24 @@ export default async function handler(req: any, res: any) {
         switch (method) {
             case 'GET':
                 if (query && query.id) {
-                    // Tek bir kategoriyi getir
-                    db.query('SELECT * FROM categories WHERE id = ?', [query.id], (err: any, result: any) => {
+                    // Tek bir ürünü getir
+                    db.query('SELECT * FROM product WHERE id = ?', [query.id], (err: any, result: any) => {
                         if (err) {
-                            console.error('Kategori getirilirken bir hata oluştu:', err);
+                            console.error('Ürün getirilirken bir hata oluştu:', err);
                             return res.status(500).json({ message: 'Internal Server Error' });
                         }
 
                         if (result.length === 0) {
-                            return res.status(404).json({ message: 'Kategori bulunamadı' });
+                            return res.status(404).json({ message: 'Ürün bulunamadı' });
                         }
 
                         return res.status(200).json(result[0]);
                     });
                 } else {
-                    // Tüm kategorileri getir
-                    db.query('SELECT * FROM categories', (err: any, result: any) => {
+                    // Tüm ürünleri getir
+                    db.query('SELECT * FROM product', (err: any, result: any) => {
                         if (err) {
-                            console.error('Kategoriler getirilirken bir hata oluştu:', err);
+                            console.error('Ürünler getirilirken bir hata oluştu:', err);
                             return res.status(500).json({ message: 'Internal Server Error' });
                         }
 
@@ -51,64 +51,63 @@ export default async function handler(req: any, res: any) {
                 }
                 break;
             case 'POST':
-                // Yeni kategori ekle
-                const { categoryName } = body;
+                // Yeni ürün ekle
+                const { productName, price } = body;
 
-                if (!categoryName) {
+                if (!productName || !price) {
                     return res.status(400).json({ message: 'Lütfen tüm alanları doldurun!' });
                 }
 
-                // Veritabanına kategori ekleme işlemi
-                db.query('INSERT INTO categories SET ?', { categoryName }, (err: any, result: any) => {
+                // Veritabanına ürün ekleme işlemi
+                db.query('INSERT INTO product SET ?', { productName, price }, (err: any, result: any) => {
                     if (err) {
-                        console.error('Kategori eklenirken bir hata oluştu:', err);
+                        console.error('Ürün eklenirken bir hata oluştu:', err);
                         return res.status(500).json({ message: 'Internal Server Error' });
                     }
 
-                    return res.status(201).json({ message: 'Kategori başarıyla eklendi' });
+                    return res.status(201).json({ message: 'Ürün başarıyla eklendi' });
                 });
                 break;
             case 'PUT':
-                // Kategori güncelle
-                const { updatedCategoryName } = body;
+                // Ürün güncelle
+                const { updatedProductName, updatedPrice } = body;
 
-                if (!query.id || !updatedCategoryName) {
+                if (!updatedProductName || !updatedPrice) {
                     return res.status(400).json({ message: 'Lütfen tüm alanları doldurun!' });
                 }
 
-                // Veritabanında ilgili kategoriyi güncelleme işlemi
-                db.query('UPDATE categories SET categoryName = ? WHERE id = ?', [updatedCategoryName, query.id], (err: any, result: any) => {
+                // Veritabanında ilgili ürünü güncelleme işlemi
+                db.query('UPDATE products SET productName = ?, price = ? WHERE id = ?', [updatedProductName, updatedPrice, query.id], (err: any, result: any) => {
                     if (err) {
-                        console.error('Kategori güncellenirken bir hata oluştu:', err);
+                        console.error('Ürün güncellenirken bir hata oluştu:', err);
                         return res.status(500).json({ message: 'Internal Server Error' });
                     }
 
-                    return res.status(200).json({ message: 'Kategori başarıyla güncellendi' });
+                    return res.status(200).json({ message: 'Ürün başarıyla güncellendi' });
                 });
                 break;
             case 'DELETE':
-                // Kategori sil
-                const categoryId = query.id;
+                // Ürün sil
+                const productId = query.id;
 
-                if (!categoryId) {
+                if (!productId) {
                     return res.status(400).json({ message: 'Lütfen tüm alanları doldurun!' });
                 }
 
-                // Veritabanında ilgili kategoriyi silme işlemi
-                db.query('DELETE FROM categories WHERE id = ?', [categoryId], (err: any, result: any) => {
+                // Veritabanında ilgili ürünü silme işlemi
+                db.query('DELETE FROM products WHERE id = ?', [productId], (err: any, result: any) => {
                     if (err) {
-                        console.error('Kategori silinirken bir hata oluştu:', err);
+                        console.error('Ürün silinirken bir hata oluştu:', err);
                         return res.status(500).json({ message: 'Internal Server Error' });
                     }
 
-                    return res.status(200).json({ message: 'Kategori başarıyla silindi' });
+                    return res.status(200).json({ message: 'Ürün başarıyla silindi' });
                 });
                 break;
             default:
                 return res.status(405).json({ message: 'Method Not Allowed' });
         }
     } catch (error) {
-        console.error('Token doğrulama hatası:', error);
         return res.status(401).json({ message: 'Unauthorized - Invalid token' });
     }
 }
