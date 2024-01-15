@@ -13,12 +13,11 @@ export default async function handler(req: any, res: any) {
         return res.status(401).json({ message: 'Unauthorized - Token not provided' });
     }
 
+
     try {
-        // Token doğrulama
-        const decodedToken: any = jwt.verify(token, secretKey);
 
         // Rol kontrolü
-        if (decodedToken.role !== 0) {
+        if (body.role != 0) {
             return res.status(403).json({ message: 'Forbidden - Unauthorized access' });
         }
 
@@ -26,7 +25,7 @@ export default async function handler(req: any, res: any) {
             case 'GET':
                 if (query && query.id) {
                     // Tek bir kategoriyi getir
-                    db.query('SELECT * FROM categories WHERE id = ?', [query.id], (err: any, result: any) => {
+                    db.query('SELECT * FROM category WHERE id = ?', [query.id], (err: any, result: any) => {
                         if (err) {
                             console.error('Kategori getirilirken bir hata oluştu:', err);
                             return res.status(500).json({ message: 'Internal Server Error' });
@@ -40,7 +39,7 @@ export default async function handler(req: any, res: any) {
                     });
                 } else {
                     // Tüm kategorileri getir
-                    db.query('SELECT * FROM categories', (err: any, result: any) => {
+                    db.query('SELECT * FROM category', (err: any, result: any) => {
                         if (err) {
                             console.error('Kategoriler getirilirken bir hata oluştu:', err);
                             return res.status(500).json({ message: 'Internal Server Error' });
@@ -52,14 +51,14 @@ export default async function handler(req: any, res: any) {
                 break;
             case 'POST':
                 // Yeni kategori ekle
-                const { categoryName } = body;
+                const { name } = body;
 
-                if (!categoryName) {
+                if (!name) {
                     return res.status(400).json({ message: 'Lütfen tüm alanları doldurun!' });
                 }
 
                 // Veritabanına kategori ekleme işlemi
-                db.query('INSERT INTO categories SET ?', { categoryName }, (err: any, result: any) => {
+                db.query('INSERT INTO category SET ?', { name }, (err: any, result: any) => {
                     if (err) {
                         console.error('Kategori eklenirken bir hata oluştu:', err);
                         return res.status(500).json({ message: 'Internal Server Error' });
@@ -70,14 +69,14 @@ export default async function handler(req: any, res: any) {
                 break;
             case 'PUT':
                 // Kategori güncelle
-                const { updatedCategoryName } = body;
+                const { categoryName } = body;
 
-                if (!query.id || !updatedCategoryName) {
+                if (!query.id || !categoryName) {
                     return res.status(400).json({ message: 'Lütfen tüm alanları doldurun!' });
                 }
 
                 // Veritabanında ilgili kategoriyi güncelleme işlemi
-                db.query('UPDATE categories SET categoryName = ? WHERE id = ?', [updatedCategoryName, query.id], (err: any, result: any) => {
+                db.query('UPDATE category SET name = ? WHERE id = ?', [categoryName, query.id], (err: any, result: any) => {
                     if (err) {
                         console.error('Kategori güncellenirken bir hata oluştu:', err);
                         return res.status(500).json({ message: 'Internal Server Error' });
@@ -95,7 +94,7 @@ export default async function handler(req: any, res: any) {
                 }
 
                 // Veritabanında ilgili kategoriyi silme işlemi
-                db.query('DELETE FROM categories WHERE id = ?', [categoryId], (err: any, result: any) => {
+                db.query('DELETE FROM category WHERE id = ?', [categoryId], (err: any, result: any) => {
                     if (err) {
                         console.error('Kategori silinirken bir hata oluştu:', err);
                         return res.status(500).json({ message: 'Internal Server Error' });
@@ -108,7 +107,6 @@ export default async function handler(req: any, res: any) {
                 return res.status(405).json({ message: 'Method Not Allowed' });
         }
     } catch (error) {
-        console.error('Token doğrulama hatası:', error);
         return res.status(401).json({ message: 'Unauthorized - Invalid token' });
     }
 }
