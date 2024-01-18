@@ -39,9 +39,9 @@ const CustomSidebar: React.FC = () => {
                         <AiOutlineDashboard/>
                         <ListItemText primary="Dashboard" sx={{paddingLeft: '0.5rem'}} onClick={() => push('/')}/>
                     </ListItem>
-                    <ListItem button sx={getListItemStyle('/account')}>
+                    <ListItem button sx={getListItemStyle('/customers')}>
                         <AiOutlineUser/>
-                        <ListItemText primary="Account" sx={{paddingLeft: '0.5rem'}} onClick={() => push('/account')}/>
+                        <ListItemText primary="Customer" sx={{paddingLeft: '0.5rem'}} onClick={() => push('/customers')}/>
                     </ListItem>
                     <ListItem button sx={getListItemStyle('/category/list')}>
                         <BiSolidCategory/>
@@ -80,10 +80,6 @@ const CustomSidebar: React.FC = () => {
                     <ListItem button sx={getListItemStyle('/')}>
                         <AiOutlineDashboard/>
                         <ListItemText primary="Dashboard" sx={{paddingLeft: '0.5rem'}} onClick={() => push('/')}/>
-                    </ListItem>
-                    <ListItem button sx={getListItemStyle('/account')}>
-                        <AiOutlineUser/>
-                        <ListItemText primary="Account" sx={{paddingLeft: '0.5rem'}} onClick={() => push('/account')}/>
                     </ListItem>
                     <ListItem button sx={getListItemStyle('/my-orders')}>
                         <AiOutlineShoppingCart/>
