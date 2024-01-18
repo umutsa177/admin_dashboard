@@ -11,7 +11,7 @@ import {useEffect, useState} from "react";
 const CustomAppBar: React.FC = () => {
     const {push} = useRouter();
     const {signOut} = useAuth();
-    const [role, setRole] = useState("0");
+    const [role, setRole] = useState<Number>();
 
 
     const handleLogout = async () => {
@@ -38,7 +38,7 @@ const CustomAppBar: React.FC = () => {
         <AppBar position="static">
             <Toolbar>
                 <Typography variant="h6" component="div" sx={{flexGrow: 1, textAlign: 'center'}}>
-                    {role === "0" ? "Admin Panel" : "Customer Panel"}
+                    {role === 0 ? "Admin Panel" : "Customer Panel"}
                 </Typography>
                 <Button variant='contained' color='secondary' onClick={() => handleLogout()}
                         sx={{ textAlign: 'end'}}>
