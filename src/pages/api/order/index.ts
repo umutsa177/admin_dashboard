@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 import db from '@/config/db';
-import { v4 as uuidv4 } from 'uuid';
 
 // Sipariş verme
 export default async function handler(req: any, res: any) {
