@@ -18,7 +18,7 @@ import {BsBorderStyle} from "react-icons/bs";
 
 const CustomSidebar: React.FC = () => {
     const {push, pathname} = useRouter();
-    const [role, setRole] = useState("0");
+    const [role, setRole] = useState<Number>();
     useEffect(() => {
         const user = localStorage.getItem('user');
         const userObj = JSON.parse(user || '{}');
@@ -32,7 +32,7 @@ const CustomSidebar: React.FC = () => {
             backgroundColor: pathname === menuItemPath ? '#1876D1' : 'transparent',
             color: pathname === menuItemPath ? '#fff' : '#000',
         });
-        if (role === "0") {
+        if (role === 0) {
             return (
                 <>
                     <ListItem button sx={getListItemStyle('/')}>
@@ -74,7 +74,7 @@ const CustomSidebar: React.FC = () => {
                     </ListItem>
                 </>
             );
-        } else if (role === "1") {
+        } else if (role === 1) {
             return (
                 <>
                     <ListItem button>
