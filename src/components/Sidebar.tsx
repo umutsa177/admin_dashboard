@@ -77,15 +77,15 @@ const CustomSidebar: React.FC = () => {
         } else if (role === 1) {
             return (
                 <>
-                    <ListItem button>
+                    <ListItem button sx={getListItemStyle('/')}>
                         <AiOutlineDashboard/>
                         <ListItemText primary="Dashboard" sx={{paddingLeft: '0.5rem'}} onClick={() => push('/')}/>
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button sx={getListItemStyle('/account')}>
                         <AiOutlineUser/>
                         <ListItemText primary="Account" sx={{paddingLeft: '0.5rem'}} onClick={() => push('/account')}/>
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button sx={getListItemStyle('/my-orders')}>
                         <AiOutlineShoppingCart/>
                         <ListItemText primary="My Orders" sx={{paddingLeft: '0.5rem'}}
                                       onClick={() => push('/my-orders')}/>
