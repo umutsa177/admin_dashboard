@@ -1,13 +1,12 @@
-import ConfigurationForm from "@/components/config_form";
-import Layout from "@/Layout";
+import {useRouter} from "next/router";
+import CategoryForm from "@/components/categoryForm";
 
-const Settings = () => {
-    return (
+const CategoryEdit = () => {
+    const {id} = useRouter().query
 
-            <ConfigurationForm/>
-
+    return(
+        <CategoryForm id={id as string} />
     )
-
 }
 
 export const getServerSideProps = async (ctx: any) => {
@@ -29,4 +28,5 @@ export const getServerSideProps = async (ctx: any) => {
         }
     }
 }
-export default Settings;
+
+export default CategoryEdit;

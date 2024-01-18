@@ -1,13 +1,13 @@
-import ConfigurationForm from "@/components/config_form";
-import Layout from "@/Layout";
+import {useRouter} from "next/router";
+import CategoryForm from "@/components/categoryForm";
+import ProductForm from "@/components/ProductForm";
 
-const Settings = () => {
-    return (
+const ProductEdit = () => {
+    const {id} = useRouter().query
 
-            <ConfigurationForm/>
-
+    return(
+        <ProductForm id={id as string} />
     )
-
 }
 
 export const getServerSideProps = async (ctx: any) => {
@@ -29,4 +29,5 @@ export const getServerSideProps = async (ctx: any) => {
         }
     }
 }
-export default Settings;
+
+export default ProductEdit;

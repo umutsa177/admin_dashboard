@@ -14,10 +14,11 @@ const Layout: React.FC<LayoutProps> = ({ children = null }) => {
     const router = useRouter();
     const isLoginPage = router.pathname === '/auth/signIn';
 
+
     return (
         <>
             <CssBaseline />
-            {!isLoginPage && <CustomAppBar />}
+            {!isLoginPage  && <CustomAppBar />}
             <div style={{ display: 'flex', textAlign: 'center' }}>
                 {!isLoginPage && <CustomSidebar />}
                 <Container component="main" maxWidth="lg" sx={{ flexGrow: 1, p: 3 }}>

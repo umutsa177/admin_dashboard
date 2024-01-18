@@ -22,7 +22,7 @@ export default async function handler(req: any, res: any) {
                 return res.status(401).json({ message: 'Kullanıcı bulunamadı!' });
             }
 
-            const user = {
+            const user: any = {
                 id: result[0].id,
                 name: result[0].name,
                 email: result[0].email,

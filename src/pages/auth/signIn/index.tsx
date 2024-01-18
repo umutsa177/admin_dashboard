@@ -6,13 +6,14 @@ import {CiUser} from 'react-icons/ci';
 import {toast} from "react-toastify";
 import { useRouter } from 'next/router';
 import baseApi from "@/axios/baseApi";
+import {useAuth} from "@/provider/authProvider";
 
 const Login: NextPage = () => {
     const [submitting, setSubmitting] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-
+    const {signIn} = useAuth();
     const {push} = useRouter();
 
     const handleLogin = async (e: SyntheticEvent) => {
@@ -22,13 +23,7 @@ const Login: NextPage = () => {
                 email,
                 password
             }
-            const res: any = await baseApi.post('/auth/login', body)
-            if(res.status === 401) {
-                toast.error(res.error)
-            }else if(res.status === 200) {
-                toast.success('Giriş Başarılı')
-                push('/')
-            }
+            signIn(body)
         } catch (e: any) {
             console.log(e);
             toast.error(e.response.data.message);

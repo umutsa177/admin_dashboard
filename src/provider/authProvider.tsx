@@ -15,7 +15,6 @@ interface AuthContextProps {
     signIn: (credentials: User) => void;
     signOut: () => void;
     isAuthenticated: boolean;
-    checkUserSession: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -30,49 +29,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const router = useRouter();
     const cookies = new Cookies();
 
-    useEffect(() => {
-        // Sayfa yenilendiğinde oturum kontrolü yap
-        checkUserSession();
-    }, []);
 
-    const checkUserSession = async () => {
-        const token = cookies.get('token');
-        if (token) {
-            try {
-                // Token ile kullanıcı bilgilerini kontrol et
-                const response = await axios.get('http://localhost:3000/api/auth/userInfo', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setUser(response.data.user);
-                setIsAuthenticated(true);
-            } catch (error) {
-                // Hata durumunda token'ı temizle ve kullanıcı bilgilerini sıfırla
-                cookies.remove('token');
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
-                setUser(null);
-                setIsAuthenticated(false);
-            }
-        } else {
-            // Token yoksa kullanıcı bilgilerini sıfırla
-            setUser(null);
-            setIsAuthenticated(false);
-        }
-    };
 
     const signIn = async (credentials: User) => {
         try {
             const response = await axios.post('http://localhost:3000/api/auth/login', credentials);
+            console.log('response', response)
             if(response.status === 200) {
                 const { token, user } = response.data;
-                cookies.set('token', token, { path: '/' });
                 setUser(user);
                 setIsAuthenticated(true);
                 localStorage.setItem('user', JSON.stringify(user));
                 localStorage.setItem('token', JSON.stringify(token));
-                router.push('/dashboard');
+                router.push('/');
                 toast.success('Giriş Başarılı');
             }
 
@@ -83,19 +52,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     };
 
     const signOut = () => {
-        cookies.remove('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         setUser(null);
         setIsAuthenticated(false);
         router.push('/auth/signIn');
     };
+
 
     const contextValues: AuthContextProps = {
         user,
         signIn,
         signOut,
         isAuthenticated,
-        checkUserSession,
+
     };
 
     return <AuthContext.Provider value={contextValues}>{children}</AuthContext.Provider>;

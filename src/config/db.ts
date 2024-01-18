@@ -7,6 +7,13 @@ const db = mysql.createConnection({
     database: 'admin_dashboard_db' // Kullanılacak veritabanı adı
 });
 
+/*const db = mysql.createConnection({
+    host: 'admindashboard.cluster-cru860oucxic.eu-north-1.rds.amazonaws.com',      // MySQL sunucu adresi
+    user: 'admin_dash',     // Veritabanı kullanıcı adı
+    password: 'O6sPKmWFvCcKcjf6xdd3',       // Veritabanı şifresi
+    database: 'admindashboard' // Kullanılacak veritabanı adı
+});*/
+
 // Bağlantıyı başlat
 db.connect((err: any) => {
     if (err) {

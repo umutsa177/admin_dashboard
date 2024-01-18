@@ -6,7 +6,7 @@ const saltRounds = 10; // Hashleme sırasında kullanılacak tuz sayısı
 export default async function handler(req: any, res: any) {
     if (req.method === 'POST') {
         //0 admin, 1 user
-        const { name, email, password, role } = req.body;
+        const { name, email, password, role = 1 } = req.body;
         if (!name || !email || !password) {
             return res.status(400).json({ message: 'Lütfen tüm alanları doldurun!' });
         }
