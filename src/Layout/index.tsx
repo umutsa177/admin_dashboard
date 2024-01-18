@@ -12,7 +12,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children = null }) => {
     const router = useRouter();
-    const isLoginPage = router.pathname === '/auth/signIn';
+    const isLoginPage = router.pathname === '/auth/signIn' || router.pathname === '/auth/register';
 
 
     return (

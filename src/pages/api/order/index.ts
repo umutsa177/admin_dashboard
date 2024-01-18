@@ -12,7 +12,7 @@ export default async function handler(req: any, res: any) {
 
     if (req.method === 'GET') {
         if (req.query.userId) {
-            db.query('SELECT `order`.*, product.name AS productName, product.price AS productPrice FROM `order` JOIN product ON `order`.productId = product.id WHERE `order`.userId = ?', [req.query.userId], (err: any, result: any) => {
+            db.query('SELECT `order`.*, product.name AS productName, product.price AS price FROM `order` JOIN product ON `order`.productId = product.id WHERE `order`.userId = ?', [req.query.userId], (err: any, result: any) => {
                 if (err) {
                     console.error('Siparişler getirilirken bir hata oluştu:', err);
                     return res.status(500).json({ message: 'Internal Server Error' });

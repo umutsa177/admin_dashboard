@@ -8,9 +8,10 @@ import { useRouter } from 'next/router';
 import baseApi from "@/axios/baseApi";
 import {useAuth} from "@/provider/authProvider";
 
-const Login: NextPage = () => {
+const Register: NextPage = () => {
     const [submitting, setSubmitting] = useState(false);
     const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const {signIn} = useAuth();
@@ -20,10 +21,16 @@ const Login: NextPage = () => {
         e.preventDefault();
         try {
             let body = {
+                name,
                 email,
                 password
             }
-            signIn(body)
+
+            const response = await baseApi.post('/auth/register', body);
+            if(response.status === 201){
+                toast.success('Kayıt Başarılı')
+                push('/auth/signIn')
+            }
         } catch (e: any) {
             console.log(e);
             toast.error(e.response.data.message);
@@ -46,13 +53,25 @@ const Login: NextPage = () => {
                         <>
                             <CiUser style={{fontSize: '3rem', marginBottom: '1rem'}}/>
                             <Typography component="h1" variant="h5">
-                                LOGIN
+                                REGISTER
                             </Typography>
                             <Typography variant="body2" color="textSecondary"
                                         style={{marginTop: '1rem', marginBottom: '2rem'}}>
-                                Login
+                                Giriş Yapın
                             </Typography>
                             <form onSubmit={handleLogin} style={{width: '100%'}}>
+                                <FormControl fullWidth sx={{marginBottom: '1rem'}}>
+                                    <InputLabel htmlFor="email">Name</InputLabel>
+                                    <Input
+                                        id="name"
+                                        type="text"
+                                        name="name"
+                                        required
+                                        disabled={submitting}
+                                        placeholder="name"
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </FormControl>
                                 <FormControl fullWidth sx={{marginBottom: '1rem'}}>
                                     <InputLabel htmlFor="email">Email</InputLabel>
                                     <Input
@@ -62,7 +81,6 @@ const Login: NextPage = () => {
                                         required
                                         disabled={submitting}
                                         placeholder="email"
-                                        defaultValue="email"
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </FormControl>
@@ -75,17 +93,14 @@ const Login: NextPage = () => {
                                         required
                                         disabled={submitting}
                                         placeholder="Password"
-                                        defaultValue="Password"
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </FormControl>
-
-                                <Link href="/auth/register" variant="body2" sx={{marginBottom: '1rem'}}>
-                                    {"Register"}
+                                <Link href="/auth/signIn" variant="body2" sx={{marginBottom: '1rem'}}>
+                                    {"Sign In"}
                                 </Link>
-
                                 <Button type="submit" fullWidth variant="outlined" sx={{marginTop: '1rem'}}>
-                                    Sign In
+                                    Sign Up
                                 </Button>
                             </form>
                         </>
@@ -116,4 +131,4 @@ export const getServerSideProps = async (ctx: any) => {
         }
     }
 }
-export default Login;
+export default Register;
